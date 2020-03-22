@@ -1,0 +1,23 @@
+{
+  "presets": [
+    [
+      "@babel/env"
+    ]
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-transform-runtime"
+    ],
+    [
+      "module-resolver",
+      {
+        "root": [
+          "./src"
+        ]
+      }
+    ],
+    [
+      "@babel/plugin-proposal-throw-expressions"
+    ]
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "name": "ayudante-virtual",
+  "version": "0.0.1",
+  "description": "Bot de Slack que sirve como ayudante virtual para realizar consultas que no pueden ser compartidas en canales públicos.",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seblaz/Ayudante-virtual.git"
+  },
+  "keywords": [
+    "slack",
+    "ayudante",
+    "trabajos",
+    "prácticos"
+  ],
+  "author": "Seblaz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seblaz/Ayudante-virtual/issues"
+  },
+  "homepage": "https://github.com/seblaz/Ayudante-virtual#readme",
+  "engines": {
+    "node": "12.x"
+  },
+  "scripts": {
+    "test": "mocha --require @babel/register",
+    "build": "babel src -d dist",
+    "start": "nodemon --exec babel-node src/index.js",
+    "serve": "npm run build && node dist/index.js"
+  },
+  "dependencies": {
+    "@babel/plugin-proposal-throw-expressions": "^7.8.3",
+    "@babel/runtime": "^7.9.2",
+    "@slack/bolt": "^1.8.0",
+    "@slack/web-api": "latest",
+    "lowdb": "^1.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/node": "^7.8.7",
+    "@babel/plugin-transform-runtime": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "mocha": "^7.1.1",
+    "nodemon": "^2.0.2"
+  }
+}
