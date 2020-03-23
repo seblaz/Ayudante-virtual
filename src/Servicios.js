@@ -7,7 +7,7 @@ class Servicios {
     constructor() {
         this._servicios = [];
         this._set('canalesDeConsulta', new CanalesDeConsulta());
-        this._set('tokens', new Tokens())
+        this._set('tokens', new Tokens());
     }
 
     _set(nombre, servicio) {

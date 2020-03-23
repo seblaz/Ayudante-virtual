@@ -14,7 +14,7 @@ export default class Textos {
     }
 
     static transmitirConsulta(usuario, consulta) {
-        return `<@${usuario}> tiene una consulta:\n${consulta}.`
+        return `<@${usuario}> tiene una consulta:\n${consulta}`
     }
 
     static noEntendido() {

@@ -25,15 +25,16 @@
   "scripts": {
     "test": "mocha --require @babel/register",
     "build": "babel src -d dist",
-    "start": "nodemon --exec babel-node src/index.js",
-    "serve": "npm run build && node dist/index.js"
+    "dev": "nodemon --exec babel-node src/index.js",
+    "start": "npm run build && node dist/index.js"
   },
   "dependencies": {
     "@babel/plugin-proposal-throw-expressions": "^7.8.3",
     "@babel/runtime": "^7.9.2",
     "@slack/bolt": "^1.8.0",
     "@slack/web-api": "latest",
-    "lowdb": "^1.0.0"
+    "lowdb": "^1.0.0",
+    "express": "latest"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",

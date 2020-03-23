@@ -2,14 +2,30 @@ import Textos from "mensajes/Textos";
 import Conversacion from "mensajes/Conversacion";
 import EnviarMensaje from "acciones/EnviarMensaje";
 import Servicios from "Servicios";
+import AppReceiver from "app/AppReceiver";
+import {LogLevel} from "@slack/bolt";
+import App from "@slack/bolt/dist/App";
+
+const util = require('util');
 
 
-export default class Respuestas {
+export default class MyApp {
 
-    constructor(app) {
-        this.subscribirBienvenida(app);
-        this.subscribirMensajes(app);
-        this.recibirSetCanalDeConsultas(app);
+    constructor() {
+        const receiver = new AppReceiver();
+        this.app = new App({
+            authorize: receiver.authorizeFn,
+            logLevel: LogLevel.DEBUG,
+            receiver: receiver
+        });
+
+        this.subscribirBienvenida(this.app);
+        this.subscribirMensajes(this.app);
+        this.recibirSetCanalDeConsultas(this.app);
+    }
+
+    start(port) {
+        return this.app.start(port);
     }
 
     recibirSetCanalDeConsultas(app) {
@@ -57,8 +73,11 @@ export default class Respuestas {
     }
 
     subscribirMensajes(app) {
-        app.message(/.*/, ({message, say, context}) => {
+        app.message(/.*/, ({message, say, context, body}) => {
+            message.team = body.team_id; // Cuando se envían archivos message.team no existe (https://github.com/slackapi/bolt/issues/435).
             const mensaje = new Conversacion().mensaje(message);
+            console.log(util.inspect(message, false, null, true /* enable colors */));
+            console.log(util.inspect(body, false, null, true /* enable colors */));
 
             mensaje
                 .accion(message)

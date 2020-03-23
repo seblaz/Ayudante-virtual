@@ -2,7 +2,7 @@ import Accion from "acciones/Accion";
 
 export default class EnviarMensaje extends Accion {
 
-    constructor({canal, mensaje}) {
+    constructor({canal, mensaje, archivos}) {
         super();
         this._canal = canal;
         this._mensaje = mensaje;
