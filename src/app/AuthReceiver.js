@@ -35,9 +35,9 @@ export default class AuthReceiver extends ExpressReceiver {
                 redirect_url: redirectUrl
             })
                 .then(oAuthResult => {
-                    return webClient.auth.test({token: oAuthResult.access_token})
+                    return Promise.all([webClient.auth.test({token: oAuthResult.access_token}), oAuthResult])
                 })
-                .then(result => {
+                .then(([result, oAuthResult]) => {
                     onSuccess({res, oAuthResult: {bot_id: result.bot_id, ...oAuthResult}})
                 })
                 .catch(async error => {
