@@ -8,9 +8,10 @@ export default class AppReceiver extends AuthReceiver {
 
     constructor() {
         super(new AuthConfig());
+        this._staticAssets();
     }
 
-    _staticAssets(){
+    _staticAssets() {
         this.app.use(express.static('public'));
     }
 

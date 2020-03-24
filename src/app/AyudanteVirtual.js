@@ -6,10 +6,8 @@ import AppReceiver from "app/AppReceiver";
 import {LogLevel} from "@slack/bolt";
 import App from "@slack/bolt/dist/App";
 
-const util = require('util');
 
-
-export default class MyApp {
+export default class AyudanteVirtual {
 
     constructor() {
         const receiver = new AppReceiver();
@@ -76,8 +74,6 @@ export default class MyApp {
         app.message(/.*/, ({message, say, context, body}) => {
             message.team = body.team_id; // Cuando se envían archivos message.team no existe (https://github.com/slackapi/bolt/issues/435).
             const mensaje = new Conversacion().mensaje(message);
-            console.log(util.inspect(message, false, null, true /* enable colors */));
-            console.log(util.inspect(body, false, null, true /* enable colors */));
 
             mensaje
                 .accion(message)

@@ -17,7 +17,14 @@ export default class ConsultaNoConfigurada extends Mensaje {
     accion(message) {
         return new EnviarMensaje({
             canal: Servicios.get('canalesDeConsulta').getCanal(message.team),
-            mensaje: Textos.transmitirConsulta(message.user, message.text)
+            mensaje: Textos.transmitirConsulta(message.user, message.text) +
+                "\n" + this.adjuntos(message.files)
         });
+    }
+
+    adjuntos(archivos) {
+        return archivos ? "Y adjuntó los siguientes archivos:\n" +
+            archivos.map(archivo => ` • <${archivo.permalink}|${archivo.name}>`)
+                .join("\n") : '';
     }
 }
