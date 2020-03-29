@@ -36,7 +36,7 @@ describe('Persistencia', () => {
         it('si la carpeta de persistencia existe, no borra sus contenidos.', () => {
             const file = path.join(dir, 'testFile.txt');
             fs.mkdirSync(dir);
-            fs.writeFile(file, 'some nice unimportant content', () => null);
+            fs.writeFileSync(file, 'some nice unimportant content');
 
             new Almacenamiento({file: 'test.json', dataDir: dir});
 
