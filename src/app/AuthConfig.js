@@ -19,10 +19,11 @@ export default class AuthConfig {
 
     onSuccess({res, oAuthResult}) {
         Servicios.get('tokens').setTokens(oAuthResult);
-        res.redirect('https://htmlpreview.github.io/?https://github.com/seblaz/Ayudante-virtual/blob/master/confirmacion/index.html');
+        res.redirect('/confirmacion.html');
     }
 
-    onError(error) {
-        console.log(error)
+    onError({res, error}) {
+        console.log(error);
+        res.redirect('/error.html');
     }
 }

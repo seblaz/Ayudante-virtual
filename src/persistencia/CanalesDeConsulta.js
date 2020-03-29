@@ -3,12 +3,11 @@ import Almacenamiento from "persistencia/Almacenamiento";
 
 export default class CanalesDeConsulta extends Almacenamiento {
 
-    constructor() {
-        super('canales.json');
+    constructor({file = 'canales.json', dataDir = '.data'} = {}) {
+        super({file, dataDir});
     }
 
     setCanal(teamId, canal) {
-        console.log(`Actualizando canal del equipo ${teamId} a ${canal}`);
         this.db.set(`${teamId}.canal`, canal).write()
     }
 

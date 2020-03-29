@@ -6,9 +6,9 @@ export class Saludo extends Mensaje {
     expresionRegular(mensaje) {
         const saludos = [
             "h", "hi", "hello", "hey", "hola", "buenas",
-            "como estas?", "cómo estás?", "help", "ayuda"
+            "como estas\\?", "cómo estás\\?", "help", "ayuda"
         ];
-        return new RegExp(`^(${saludos.join("|")})$`, "i");
+        return new RegExp(`^(${saludos.join("|")})(\\s|$)`, "i");
     }
 
     respuesta({user}) {

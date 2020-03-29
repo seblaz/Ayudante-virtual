@@ -1,12 +1,8 @@
 import Textos from "mensajes/Textos";
-import {Mensaje} from "mensajes/Mensaje";
+import {Consulta} from "mensajes/Consulta";
 
 
-export default class ConsultaNoConfigurada extends Mensaje {
-
-    expresionRegular() {
-        return new RegExp("^Tengo una consulta", "i");
-    }
+export default class ConsultaNoConfigurada extends Consulta {
 
     respuesta() {
         return Textos.canalDeConsultasNoConfigurado();

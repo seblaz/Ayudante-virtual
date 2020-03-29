@@ -97,6 +97,12 @@ a:active {
     color: #24b663;
 }
 
+.main-content__times {
+    font-size: 4.0625rem;
+    line-height: 1;
+    color: #b60e0b;
+}
+
 .main-content__body {
     margin: 20px 0 0;
     font-size: 1rem;
@@ -155,7 +161,7 @@ a:active {
         font-size: 3.25rem;
     }
 
-    .main-content__checkmark {
+    .main-content__checkmark, .main-content__times {
         font-size: 4.75rem;
     }
 }
@@ -165,7 +171,7 @@ a:active {
         font-size: 6.25rem;
     }
 
-    .main-content__checkmark {
+    .main-content__checkmark, .main-content__times {
         font-size: 9.75rem;
     }
 

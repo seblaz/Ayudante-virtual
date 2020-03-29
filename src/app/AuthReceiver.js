@@ -4,7 +4,7 @@ import {WebClient} from '@slack/web-api';
 
 export default class AuthReceiver extends ExpressReceiver {
 
-    constructor({signingSecret, ...other}) {
+    constructor({signingSecret, ...other} = {}) {
         AuthReceiver._checkParameters({signingSecret, ...other});
         super({signingSecret});
         this._appInstallation(other);
@@ -16,16 +16,16 @@ export default class AuthReceiver extends ExpressReceiver {
         !signingSecret && throw new Error('signingSecret is required.');
         !redirectUrl && throw new Error('redirectUrl is required.');
         !onSuccess && throw new Error('onSuccess is required.');
-        typeof (onSuccess) !== 'function' && throw new Error('onSuccess must be a function.');
         !onError && throw new Error('onError is required.');
-        typeof (onError) !== 'function' && throw new Error('onError must be a function.');
         !stateCheck && throw new Error('stateCheck is required.');
-        typeof (stateCheck) !== 'function' && throw new Error('stateCheck is required.');
+        typeof (onSuccess) !== 'function' && throw new Error('onSuccess must be a function.');
+        typeof (onError) !== 'function' && throw new Error('onError must be a function.');
+        typeof (stateCheck) !== 'function' && throw new Error('stateCheck must be a function.');
     }
 
     _appInstallation({clientId, clientSecret, redirectUrl, stateCheck, onSuccess, onError}) {
         this.app.get(redirectUrl, (req, res) => {
-            if (!stateCheck(req.query.state)) return onError(new Error('Invalid state.'));
+            if (!stateCheck(req.query.state)) return onError({res, error: new Error('Invalid state.')});
 
             const webClient = new WebClient(null);
             return webClient.oauth.v2.access({ // get tokens
@@ -41,7 +41,7 @@ export default class AuthReceiver extends ExpressReceiver {
                     onSuccess({res, oAuthResult: {bot_id: result.bot_id, ...oAuthResult}})
                 })
                 .catch(async error => {
-                    await onError(error);
+                    await onError({res, error});
                 })
         });
     }

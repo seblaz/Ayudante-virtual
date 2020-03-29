@@ -4,7 +4,7 @@ import EnviarMensaje from "acciones/EnviarMensaje";
 import Servicios from "Servicios";
 import AppReceiver from "app/AppReceiver";
 import {LogLevel} from "@slack/bolt";
-import App from "@slack/bolt/dist/App";
+import {App} from "@slack/bolt";
 
 
 export default class AyudanteVirtual {
@@ -26,39 +26,8 @@ export default class AyudanteVirtual {
         return this.app.start(port);
     }
 
-    recibirSetCanalDeConsultas(app) {
-        app.command('/set-canal-de-consultas', ({command, say, context, ack}) => {
-            ack();
-
-            let canal;
-            try {
-                canal = this.encontrarCanal(command.text)
-            } catch (e) {
-                console.log(`No se encontró el canal en el texto ${command.text}.`, e);
-                say(Textos.setCanalDeConsultasIncorrecto());
-                return;
-            }
-
-            new EnviarMensaje({
-                canal: canal,
-                mensaje: Textos.confirmacionEnCanal(command.user_id)
-            })
-                .realizar({app, context})
-                .then(() => {
-                    Servicios.get('canalesDeConsulta').setCanal(command.team_id, canal);
-                    say(Textos.setCanalDeConsultasCorrecto(canal));
-                })
-                .catch((error) => {
-                    console.log(error);
-                    say(Textos.elBotNoSeEncuentraEnElCanal(canal))
-                })
-        });
-    };
-
-    encontrarCanal(mensaje) {
-        const results = /<#(C[A-Z0-9]*)(|.*)?>/.exec(mensaje);
-        !results && throw new Error('Canal no encontrado');
-        return results[1];
+    stop() {
+        return this.app.stop()
     }
 
     subscribirBienvenida(app) {
@@ -84,5 +53,40 @@ export default class AyudanteVirtual {
                     say(Textos.error())
                 });
         })
+    }
+
+    recibirSetCanalDeConsultas(app) {
+        app.command('/set-canal-de-consultas', ({command, say, context, ack}) => {
+            ack();
+
+            let canal;
+            try {
+                canal = this._encontrarCanal(command.text)
+            } catch (e) {
+                console.log(`No se encontró el canal en el texto ${command.text}.`, e);
+                say(Textos.setCanalDeConsultasIncorrecto());
+                return;
+            }
+
+            new EnviarMensaje({
+                canal: canal,
+                mensaje: Textos.confirmacionEnCanal(command.user_id)
+            })
+                .realizar({app, context})
+                .then(() => {
+                    Servicios.get('canalesDeConsulta').setCanal(command.team_id, canal);
+                    say(Textos.setCanalDeConsultasCorrecto(canal));
+                })
+                .catch((error) => {
+                    console.log(error);
+                    say(Textos.elBotNoSeEncuentraEnElCanal(canal))
+                })
+        });
+    };
+
+    _encontrarCanal(mensaje) {
+        const results = /<#(C[A-Z0-9]*)(|.*)?>/.exec(mensaje);
+        !results && throw new Error('Canal no encontrado');
+        return results[1];
     }
 }

@@ -6,8 +6,7 @@ import path from 'path';
 
 export default class Almacenamiento {
 
-    constructor(file) {
-        const dataDir = '.data';
+    constructor({file, dataDir}) {
         !fs.existsSync(dataDir) && fs.mkdirSync(dataDir);
         const adapter = new FileSync(path.join(dataDir, file));
         this.db = low(adapter);
