@@ -1,6 +1,6 @@
 # Ayudante-virtual
 
-[![Build Status](https://travis-ci.com/seblaz/Ayudante-virtual.svg?branch=master)](https://travis-ci.com/seblaz/Ayudante-virtual) &nbsp; [![Coverage Status](https://coveralls.io/repos/github/seblaz/Ayudante-virtual/badge.svg?branch=master)](https://coveralls.io/github/seblaz/Ayudante-virtual?branch=master)
+[![Build Status](https://travis-ci.com/seblaz/Ayudante-virtual.svg?branch=master)](https://travis-ci.com/seblaz/Ayudante-virtual) &nbsp; [![Coverage Status](https://coveralls.io/repos/github/seblaz/Ayudante-virtual/badge.svg?branch=master&service=github)](https://coveralls.io/github/seblaz/Ayudante-virtual?branch=master&service=github)
 
 
 Bot de Slack que sirve como ayudante virtual para realizar consultas que no pueden ser compartidas en canales públicos. Los alumnos realizan las consultas al bot y este las publica en un canal (posiblemente privado), donde estén solo los ayudantes.
