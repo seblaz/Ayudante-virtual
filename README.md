@@ -15,6 +15,10 @@ Para instalar en el espacio de trabajo ir a:
 
 Luego es necesario **ejecutar el comando** `/set-canal-de-consultas #mi-canal-de-consultas` para que el bot envíe las consultas a `#mi-canal-de-consultas`. A su vez el bot **debe** ser miembro de dicho canal.
 
+##### Advertencia
+
+Durante la instalación es posible que observes un mensaje de Slack diciendo que **"Slack no revisó o aprobó esta aplicación"**. Esto es así porque por el momento no se envío la app para revisión por Slack dado que para ello se necesita un dominio, un sitio web, ofrecer la posibilidad de dar soporte fuera de GitHub y otros detalles. Sin embargo este bot es de código abierto y se ofrece la posibilidad de ver y mejorar el mismo a través de pull requests.
+
 ### Uso
 
 Los alumnos simplemente deben hablar con el bot para enviarles sus consultas. Cuando un nuevo usuario se une al espacio de trabajo el bot lo saluda explicándole como usarlo. A su vez con las palabras clave 'hola', 'ayuda', 'hi', etc. se muestran mensajes de ayuda al alumno.
