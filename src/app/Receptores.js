@@ -30,7 +30,7 @@ export default class Receptores {
         ack();
 
         const encontrarCanal = (mensaje) => {
-            const results = /^<#(C[A-Z0-9]*)(|[a-zA-Z0-9\-\_]*)?>$/.exec(mensaje);
+            const results = /^<#(C[A-Z0-9]*)(?:\|[a-zA-Z0-9\-\_]*)?>$/.exec(mensaje);
             return results && results[1];
         };
         const canal = encontrarCanal(command.text);

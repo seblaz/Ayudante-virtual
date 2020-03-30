@@ -271,6 +271,24 @@ describe('App', () => {
             setCanalesDeConsultaStub.should.be.called()
         });
 
+        it('setCanalDeConsultas guarda el canal de consultas si se incluye un solo canal con el nombre.', async () => {
+            const canal = "CMICANAL|nombre-de-mi-canal";
+            const setCanalesDeConsultaStub = sinon.stub(CanalesDeConsulta.prototype, "setCanal");
+
+            await Receptores.setCanalDeConsultas({
+                app: {
+                    logger: {info: sinon.stub()},
+                    client: {chat: {postMessage: sinon.stub().resolves(true)}}
+                },
+                command: {text: `<#${canal}>`},
+                say: sinon.stub(),
+                ack: sinon.stub(),
+                context: {}
+            });
+
+            setCanalesDeConsultaStub.should.be.called()
+        });
+
         it('setCanalDeConsultas responde con error si el bot no se encuentra en el canal.', async () => {
             const sayStub = sinon.stub();
             await Receptores.setCanalDeConsultas({
