@@ -28,14 +28,14 @@ export default class AyudanteVirtual {
     }
 
     subscribirBienvenida(app) {
-        app.event('team_join', Receptores.nuevoMiembro);
+        app.event('team_join', request => Receptores.nuevoMiembro({app, ...request}));
     }
 
     subscribirMensajes(app) {
-        app.message(/.*/, Receptores.mensajes)
+        app.message(/.*/, request => Receptores.mensajes({app, ...request}))
     }
 
     recibirSetCanalDeConsultas(app) {
-        app.command('/set-canal-de-consultas', Receptores.setCanalDeConsultas);
+        app.command('/set-canal-de-consultas', request => Receptores.setCanalDeConsultas({app, ...request}));
     };
 }
