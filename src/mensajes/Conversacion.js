@@ -11,7 +11,7 @@ export default class Conversacion {
     }
 
     mensaje(message) {
-        const consulta = this._configurada(message.team) ? new ConsultaConfigurada(message.team) : new ConsultaNoConfigurada();
+        const consulta = this._configurada(message.team) ? new ConsultaConfigurada() : new ConsultaNoConfigurada();
         return  [new Saludo(), consulta, new NoEntendido()]
             .find(mensaje => mensaje.puedeRecibirMensaje(message.text))
     }

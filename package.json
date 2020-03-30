@@ -23,8 +23,9 @@
     "node": "12.x"
   },
   "scripts": {
-    "test": "mocha -r should -r @babel/register -r should-sinon",
-    "test:watch": "npm run test -- --watch",
+    "test": "nyc mocha -r should -r @babel/register -r should-sinon",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "test:watch": "mocha -r should -r @babel/register -r should-sinon --watch",
     "build": "babel src -d dist",
     "dev": "nodemon --exec babel-node src/index.js",
     "start": "npm run build && node dist/index.js"
@@ -43,9 +44,13 @@
     "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
     "@babel/runtime": "^7.9.2",
+    "@istanbuljs/nyc-config-babel": "^3.0.0",
+    "babel-plugin-istanbul": "^6.0.0",
     "babel-plugin-module-resolver": "^4.0.0",
+    "coveralls": "^3.0.11",
     "mocha": "^7.1.1",
     "nodemon": "^2.0.2",
+    "nyc": "^15.0.0",
     "should": "^13.2.3",
     "should-sinon": "0.0.6",
     "sinon": "^9.0.1",

@@ -6,6 +6,8 @@ import {Mensaje} from "mensajes/Mensaje";
 import AccionNula from "acciones/AccionNula";
 import ConsultaConfigurada from "mensajes/ConsultaConfigurada";
 import Conversacion from "mensajes/Conversacion";
+import ConsultaNoConfigurada from "mensajes/ConsultaNoConfigurada";
+import CanalesDeConsulta from "persistencia/CanalesDeConsulta";
 const EnviarMensaje = require("acciones/EnviarMensaje");
 
 
@@ -56,6 +58,21 @@ describe('Mensajes', () => {
     });
 
     describe('Consulta configurada', () => {
+        it('envia un mensaje con la consulta y el usuario que la inició.', () => {
+            const consulta = new ConsultaConfigurada();
+            const spy = sinon.spy(EnviarMensaje, "default");
+            consulta.accion({
+                user: 'un usuario',
+                text: 'qué gusto de helado es más rico?'
+            });
+
+            spy.should.be.calledWithMatch(
+                sinon.match(({mensaje}) =>
+                    mensaje.includes('un usuario') && mensaje.includes('qué gusto de helado es más rico?')
+                )
+            );
+        });
+
         it('envia un mensaje con los links de los archivos de la consulta.', () => {
             const consulta = new ConsultaConfigurada();
             const files = [
@@ -79,9 +96,15 @@ describe('Mensajes', () => {
             conversacion.mensaje({text: "hola ayudante"}).should.be.instanceOf(Saludo);
         });
 
-        it('devuelve una consulta si el mensaje empieza con "tengo una consulta".', () => {
+        it('devuelve una ConsultaNoConfigurada si el mensaje empieza con "tengo una consulta" y no está configurada.', () => {
             const conversacion =  new Conversacion();
-            conversacion.mensaje({text: "tengo una consulta: cómo funciona?"}).should.be.instanceOf(Consulta);
+            conversacion.mensaje({text: "tengo una consulta: cómo funciona?"}).should.be.instanceOf(ConsultaNoConfigurada);
+        });
+
+        it('devuelve una ConsultaConfigurada si el mensaje empieza con "tengo una consulta" y está configurada.', () => {
+            const conversacion =  new Conversacion();
+            sinon.stub(CanalesDeConsulta.prototype, "existeCanal").returns(true);
+            conversacion.mensaje({text: "tengo una consulta: cómo funciona?"}).should.be.instanceOf(ConsultaConfigurada);
         });
 
         it('devuelve no entendido si el mensaje no es reconocido por otros saludos.', () => {

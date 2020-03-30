@@ -7,11 +7,11 @@ export class Mensaje {
     }
 
     expresionRegular() {
-        throw new Error('Mensaje no implementado.')
+        throw new Error('Método no implementado.')
     }
 
     respuesta(message) {
-        throw new Error('Mensaje no implementado.')
+        throw new Error('Método no implementado.')
     }
 
     accion(message) {
