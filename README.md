@@ -13,7 +13,12 @@ Para instalar en el espacio de trabajo ir a:
 <a href="https://slack.com/oauth/v2/authorize?client_id=1009494895799.996165417955&scope=chat:write,commands,im:history,im:read,im:write,users:read"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x"></a>
 </p>
 
+##### Configurar canales públicos
 Luego es necesario **ejecutar el comando** `/set-canal-de-consultas #mi-canal-de-consultas` para que el bot envíe las consultas a `#mi-canal-de-consultas`. A su vez el bot **debe** ser miembro de dicho canal.
+ 
+##### Configurar canales privados
+
+Si se desea recibir las consultas en un canal privado, se **debe** agregar al bot al mismo y luego  **ejecutar el comando** `/set-canal-de-consultas aquí` en el canal donde se deseen recibir las consultas.
 
 ##### Advertencia
 
@@ -54,8 +59,11 @@ Se acepta la colaboración a través de reportes en la [sección de problemas](h
  - #### `npm test`
     Ejecuta los tests.
 
- - #### `npm test:watch`
+ - #### `npm run test:watch`
     Ejecuta los tests y los vuelve a ejecutar al detectar cambios.
+
+ - #### `npm run coverage`
+    Luego de ejecutar los tests, se envía el resultado a [coveralls](https://coveralls.io). Es necesario que esté configurada la variable de ambiente `COVERALLS_REPO_TOKEN`.
 
 ### Licencia
 

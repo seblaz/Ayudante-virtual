@@ -29,14 +29,19 @@ export default class Receptores {
     static setCanalDeConsultas({app, command, say, context, ack}) {
         ack();
 
-        const encontrarCanal = (mensaje) => {
-            const results = /^<#(C[A-Z0-9]*)(?:\|[a-zA-Z0-9\-\_]*)?>$/.exec(mensaje);
-            return results && results[1];
-        };
-        const canal = encontrarCanal(command.text);
-        if(!canal) {
-            app.logger.info(`No se encontró el canal en el texto ${command.text}.`);
-            return say(Textos.setCanalDeConsultasIncorrecto());
+        let canal;
+        if (['aquí', 'acá', 'aqui', 'aca', 'here'].includes(command.text)) {
+            canal = command.channel_id;
+        } else {
+            const encontrarCanal = (mensaje) => {
+                const results = /^<#(C[A-Z0-9]*)(?:\|[a-zA-Z0-9\-\_]*)?>$/.exec(mensaje);
+                return results && results[1];
+            };
+            canal = encontrarCanal(command.text);
+            if (!canal) {
+                app.logger.info(`No se encontró el canal en el texto ${command.text}.`);
+                return say(Textos.setCanalDeConsultasIncorrecto());
+            }
         }
 
         return new EnviarMensaje({
