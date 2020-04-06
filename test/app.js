@@ -123,17 +123,17 @@ describe('App', () => {
         let setTokensStub;
 
         beforeEach(() => {
-            setTokensStub = sinon.stub(Tokens.prototype, "setTokens")
+            setTokensStub = sinon.stub(Tokens.prototype, "setTokens");
         });
 
         it('onSuccess guarda los tokens.', () => {
-            new AuthConfig().onSuccess({res: {redirect: sinon.stub()}});
+            new AuthConfig().onSuccess({res: {redirect: sinon.stub()}, oAuthResult: {team: {id: 1}}});
             setTokensStub.should.be.calledOnce();
         });
 
         it('onSuccess redirecciona a una página de confirmación.', () => {
             const redirect = sinon.stub();
-            new AuthConfig().onSuccess({res: {redirect}});
+            new AuthConfig().onSuccess({res: {redirect}, oAuthResult: {team: {id: 1}}});
             redirect.should.be.calledOnce().and.be.calledWithMatch('confirmacion');
         });
 

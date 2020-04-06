@@ -18,12 +18,14 @@ export default class AuthConfig {
     }
 
     onSuccess({res, oAuthResult}) {
+        Servicios.get('logger').info(`App installed successfully for team ${oAuthResult.team.id}.`);
         Servicios.get('tokens').setTokens(oAuthResult);
         res.redirect('/confirmacion.html');
     }
 
     onError({res, error}) {
-        console.log(error);
+        Servicios.get('logger').error(`Error while installing app.`);
+        Servicios.get('logger').error(error);
         res.redirect('/error.html');
     }
 }
