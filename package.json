@@ -28,7 +28,7 @@
     "test:watch": "mocha -r should -r @babel/register -r should-sinon --watch",
     "build": "babel src -d dist",
     "dev": "nodemon --exec babel-node src/index.js",
-    "start": "npm run build && node dist/index.js"
+    "start": "node dist/index.js"
   },
   "dependencies": {
     "@slack/bolt": "^2.0.0",
