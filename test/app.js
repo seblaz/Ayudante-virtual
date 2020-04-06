@@ -179,11 +179,21 @@ describe('App', () => {
     });
 
     describe('Receptores', () => {
+        const loggerStub = {
+            info: sinon.stub(),
+            error: sinon.stub(),
+            debug: sinon.stub(),
+            warn: sinon.stub(),
+        };
+
         it('nuevoMienbro envía un mensaje de bienvenida directo al usuario.', () => {
             const postMessage = sinon.stub();
             const idUsuario = 'id de un usuario';
             Receptores.nuevoMiembro({
-                app: {client: {chat: {postMessage}}},
+                app: {
+                    client: {chat: {postMessage}},
+                    logger: loggerStub
+                },
                 event: {user: {id: idUsuario}},
                 context: {botToken: 'dome token'}
             });
@@ -193,6 +203,7 @@ describe('App', () => {
         it('mensajes responde correctamente un mensaje.', async () => {
             const say = sinon.stub();
             await Receptores.mensajes({
+                app: {logger: loggerStub},
                 say: say,
                 message: {text: 'hola'},
                 body: {team_id: 'my team id'},
@@ -206,7 +217,7 @@ describe('App', () => {
 
             await Receptores.mensajes({
                 say: say,
-                app: {logger: {error: () => null}},
+                app: {logger: loggerStub},
                 message: {text: 'hola'},
                 body: {team_id: 'my team id'},
             });
@@ -218,7 +229,7 @@ describe('App', () => {
             const sayStub = sinon.stub();
 
             await Receptores.setCanalDeConsultas({
-                app: {logger: {info: sinon.stub()}},
+                app: {logger: loggerStub},
                 command: {text},
                 say: sayStub,
                 ack: sinon.stub()
@@ -232,7 +243,7 @@ describe('App', () => {
             const sayStub = sinon.stub();
 
             await Receptores.setCanalDeConsultas({
-                app: {logger: {info: sinon.stub()}},
+                app: {logger: loggerStub},
                 command: {text: `<#${canal}> alguna otro cosa`},
                 say: sayStub,
                 ack: sinon.stub()
@@ -245,7 +256,7 @@ describe('App', () => {
             const sayStub = sinon.stub();
 
             await Receptores.setCanalDeConsultas({
-                app: {logger: {info: sinon.stub()}},
+                app: {logger: loggerStub},
                 command: {text: `<#CUNCANAL><#COTROCANAL>`},
                 say: sayStub,
                 ack: sinon.stub()
@@ -260,7 +271,7 @@ describe('App', () => {
 
             await Receptores.setCanalDeConsultas({
                 app: {
-                    logger: {info: sinon.stub()},
+                    logger: loggerStub,
                     client: {chat: {postMessage: sinon.stub().resolves(true)}}
                 },
                 command: {text: `<#${canal}>`},
@@ -278,7 +289,7 @@ describe('App', () => {
 
             await Receptores.setCanalDeConsultas({
                 app: {
-                    logger: {info: sinon.stub()},
+                    logger: loggerStub,
                     client: {chat: {postMessage: sinon.stub().resolves(true)}}
                 },
                 command: {text: `<#${canal}>`},
@@ -295,7 +306,7 @@ describe('App', () => {
 
             await Receptores.setCanalDeConsultas({
                 app: {
-                    logger: {info: sinon.stub()},
+                    logger: loggerStub,
                     client: {chat: {postMessage: sinon.stub().resolves(true)}}
                 },
                 command: {text: `aqui`},
@@ -311,10 +322,7 @@ describe('App', () => {
             const sayStub = sinon.stub();
             await Receptores.setCanalDeConsultas({
                 app: {
-                    logger: {
-                        info: sinon.stub(),
-                        error: sinon.stub()
-                    },
+                    logger: loggerStub,
                     client: {chat: {postMessage: sinon.stub().rejects()}}
                 },
                 command: {text: `<#CMICANAL>`},

@@ -22,6 +22,8 @@ export default class AyudanteVirtual {
         // Ver https://github.com/slackapi/bolt/pull/278.
         this.app.client.logger = logger;
 
+        this.app.logger.debug('App iniciada.');
+
         this.subscribirBienvenida(this.app);
         this.subscribirMensajes(this.app);
         this.recibirSetCanalDeConsultas(this.app);

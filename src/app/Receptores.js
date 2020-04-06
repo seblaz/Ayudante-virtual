@@ -3,9 +3,12 @@ import Textos from "mensajes/Textos";
 import EnviarMensaje from "acciones/EnviarMensaje";
 import Servicios from "Servicios";
 
+
 export default class Receptores {
 
     static nuevoMiembro({app, event, context}) {
+        app.logger.info('Se unió un nuevo miembro.');
+
         new EnviarMensaje({
             canal: event.user.id,
             mensaje: Textos.saludar(event.user.id)
@@ -13,6 +16,8 @@ export default class Receptores {
     }
 
     static mensajes({app, message, say, context, body}) {
+        app.logger.debug(`Mensaje recibido: ${message.text}.`);
+
         message.team = body.team_id; // Cuando se envían archivos message.team no existe (https://github.com/slackapi/bolt/issues/435).
         const mensaje = new Conversacion().mensaje(message);
 
@@ -27,6 +32,8 @@ export default class Receptores {
     }
 
     static async setCanalDeConsultas({app, command, say, context, ack}) {
+        app.logger.info(`SetCanalDeConsultas recibido con: ${command.text}.`);
+
         await ack();
 
         let canal;
