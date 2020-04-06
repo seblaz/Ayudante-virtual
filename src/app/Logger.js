@@ -6,7 +6,7 @@ export default class Logger {
     constructor({level = 'debug', logDir = '.data'} = {}) {
         const transportOptions = {
             dirname: logDir,
-            datePattern: 'YYYY-MM-DD-HH',
+            datePattern: 'YYYY-MM-DD',
             zippedArchive: true,
             maxSize: '10m',
             maxFiles: '14'

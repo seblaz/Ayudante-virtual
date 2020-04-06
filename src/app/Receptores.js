@@ -4,10 +4,27 @@ import EnviarMensaje from "acciones/EnviarMensaje";
 import Servicios from "Servicios";
 
 
+/**
+ * Guardo los mensajes respondidos. Esto se debe a que
+ * Bolt no me permite saber si el mensaje es el original
+ * o uno repetido por error en la red.
+ * Esta solución no es buena, pero abría que abrir un issue
+ * en Bolt para ver cómo obtener esta info (probablemente
+ * modificando ExpressServer).
+ * A su vez no me interesa persistir esta info mucho tiempo,
+ * dado que las repeticiones ocurren en periodos no mucho
+ * mayores a un minuto.
+ */
+const elementosRespondidos = new Set();
+
 export default class Receptores {
 
     static nuevoMiembro({app, event, context}) {
-        app.logger.info('Se unió un nuevo miembro.');
+        if(elementosRespondidos.has(event.user.id))
+            return app.logger.debug(`Bienvenida repetida de: ${event.user.id}.`);
+
+        elementosRespondidos.add(event.user.id);
+        app.logger.debug(`Se unió un nuevo miembro: ${event.user.id}.`);
 
         new EnviarMensaje({
             canal: event.user.id,
@@ -16,6 +33,10 @@ export default class Receptores {
     }
 
     static mensajes({app, message, say, context, body}) {
+        if(elementosRespondidos.has(message.client_msg_id))
+            return app.logger.debug(`Mensaje repetido: ${message.text}.`);
+
+        elementosRespondidos.add(message.client_msg_id);
         app.logger.debug(`Mensaje recibido: ${message.text}.`);
 
         message.team = body.team_id; // Cuando se envían archivos message.team no existe (https://github.com/slackapi/bolt/issues/435).

@@ -205,7 +205,10 @@ describe('App', () => {
             await Receptores.mensajes({
                 app: {logger: loggerStub},
                 say: say,
-                message: {text: 'hola'},
+                message: {
+                    text: 'hola',
+                    client_msg_id: '1'
+                },
                 body: {team_id: 'my team id'},
             });
             say.should.be.calledOnce();
@@ -218,7 +221,10 @@ describe('App', () => {
             await Receptores.mensajes({
                 say: say,
                 app: {logger: loggerStub},
-                message: {text: 'hola'},
+                message: {
+                    text: 'hola',
+                    client_msg_id: '2'
+                },
                 body: {team_id: 'my team id'},
             });
             say.secondCall.should.be.calledWithMatch('error');

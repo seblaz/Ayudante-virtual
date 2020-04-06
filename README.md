@@ -4,13 +4,13 @@
 
 Bot de Slack que sirve como ayudante virtual para realizar consultas que no pueden ser compartidas en canales públicos. Los alumnos realizan las consultas al bot y este las publica en un canal (posiblemente privado), donde estén solo los ayudantes. Ejemplo de consulta:
 
-##### Consulta del alumno (mensaje directo del alumno al ayudante virtual):
+**Consulta del alumno (mensaje directo del alumno al ayudante virtual):**
 
 <p align="center">
     <img alt="Tengo una consulta" src="images/tengo-una-consulta.png"/>
 </p>
 
-##### Aviso a los ayudantes en otro canal (posiblemente privado):
+**Aviso a los ayudantes en otro canal (posiblemente privado):**
 
 <p align="center">
     <img alt="Consulta reenviada a los ayudantes" src="images/tengo-una-consulta-ayudantes.png"/>
@@ -36,14 +36,14 @@ Para instalar en el espacio de trabajo ir a:
 <a href="https://slack.com/oauth/v2/authorize?client_id=1009494895799.996165417955&scope=chat:write,commands,im:history,im:read,im:write,users:read"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x"></a>
 </p>
 
-##### Configurar canales públicos
+**Configurar canales públicos**
 Luego es necesario **ejecutar el comando** `/set-canal-de-consultas #mi-canal-de-consultas` para que el bot envíe las consultas a `#mi-canal-de-consultas`. A su vez el bot **debe** ser miembro de dicho canal.
  
-##### Configurar canales privados
+**Configurar canales privados**
 
 Si se desea recibir las consultas en un canal privado, se **debe** agregar al bot al mismo y luego  **ejecutar el comando** `/set-canal-de-consultas aquí` en el canal donde se deseen recibir las consultas.
 
-##### Advertencia
+**Advertencia**
 
 Durante la instalación es posible que observes un mensaje de Slack diciendo que **"Slack no revisó o aprobó esta aplicación"**. Esto es así porque por el momento no se envío la app para revisión por Slack dado que para ello se necesita un dominio, un sitio web, ofrecer la posibilidad de dar soporte fuera de GitHub y otros detalles. Sin embargo este bot es de código abierto y se ofrece la posibilidad de ver y mejorar el mismo a través de pull requests.
 
@@ -87,25 +87,32 @@ El Ayudante Virtual no guarda ni envía ningún tipo de información sobre los m
 
 Se acepta la colaboración a través de reportes en la [sección de problemas](https://github.com/seblaz/Ayudante-virtual/issues) o pull requests. En caso de querer desarrollar, luego de clonar el repositorio los comandos disponibles son los siguientes (Node.js requerido):
 
- - #### `npm install`
+ - **`npm install`**
+ 
     Instala las dependencias del projecto.
     
- - #### `npm run build`
+ - **`npm run build`**
+ 
     Compila el projecto en `dist`.
   
- - #### `npm start`
+ - **`npm start`**
+ 
     Compila e inicia el projecto.
   
- - #### `npm run dev`
+ - **`npm run dev`**
+ 
     Inicia el proyecto en modo desarrollo, recompilando cada vez que ocurra un cambio.
 
- - #### `npm test`
+ - **`npm test`**
+
     Ejecuta los tests.
 
- - #### `npm run test:watch`
+ - **`npm run test:watch`**
+
     Ejecuta los tests y los vuelve a ejecutar al detectar cambios.
 
- - #### `npm run coverage`
+ - **`npm run coverage`**
+
     Luego de ejecutar los tests, se envía el resultado a [coveralls](https://coveralls.io). Es necesario que esté configurada la variable de ambiente `COVERALLS_REPO_TOKEN`.
 
 ### Licencia
