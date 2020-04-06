@@ -9,6 +9,7 @@ import AyudanteVirtual from "app/AyudanteVirtual";
 import {App} from "@slack/bolt";
 import Receptores from "app/Receptores";
 import CanalesDeConsulta from "persistencia/CanalesDeConsulta";
+import Logger from "app/Logger";
 
 
 describe('App', () => {
@@ -323,6 +324,19 @@ describe('App', () => {
             });
 
             sayStub.should.be.calledWithMatch('no soy miembro del canal');
+        });
+    });
+
+    describe('Logger', () => {
+        it('getLevel devuelve el nivel con el que fue inicializado el logger.', () => {
+            const logger = new Logger({level: 'error'});
+            logger.getLevel().should.equal('error');
+        });
+
+        it('setLevel cambia el nivel del logger.', () => {
+            const logger = new Logger();
+            logger.setLevel('error');
+            logger.getLevel().should.equal('error');
         });
     });
 });

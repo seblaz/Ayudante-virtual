@@ -19,15 +19,15 @@ export default class Receptores {
         return mensaje
             .accion(message)
             .realizar({app, context})
-            .then(() => say(mensaje.respuesta(message)))
-            .catch((error) => {
+            .then(async () => await say(mensaje.respuesta(message)))
+            .catch(async (error) => {
                 app.logger.error(error);
-                say(Textos.error())
+                await say(Textos.error())
             });
     }
 
-    static setCanalDeConsultas({app, command, say, context, ack}) {
-        ack();
+    static async setCanalDeConsultas({app, command, say, context, ack}) {
+        await ack();
 
         let canal;
         if (['aquí', 'acá', 'aqui', 'aca', 'here'].includes(command.text)) {
@@ -40,7 +40,7 @@ export default class Receptores {
             canal = encontrarCanal(command.text);
             if (!canal) {
                 app.logger.info(`No se encontró el canal en el texto ${command.text}.`);
-                return say(Textos.setCanalDeConsultasIncorrecto());
+                return await say(Textos.setCanalDeConsultasIncorrecto());
             }
         }
 
@@ -49,13 +49,13 @@ export default class Receptores {
             mensaje: Textos.confirmacionEnCanal(command.user_id)
         })
             .realizar({app, context})
-            .then(() => {
+            .then(async () => {
                 Servicios.get('canalesDeConsulta').setCanal(command.team_id, canal);
-                say(Textos.setCanalDeConsultasCorrecto(canal));
+                await say(Textos.setCanalDeConsultasCorrecto(canal));
             })
-            .catch((error) => {
+            .catch(async (error) => {
                 app.logger.error(error);
-                say(Textos.elBotNoSeEncuentraEnElCanal(canal))
+                await say(Textos.elBotNoSeEncuentraEnElCanal(canal))
             })
     }
 }
