@@ -230,114 +230,46 @@ describe('App', () => {
             say.secondCall.should.be.calledWithMatch('error');
         });
 
-        it('setCanalDeConsultas responde con error si no encuentra un canal.', async () => {
-            const text = "dónde se usa el canal?";
-            const sayStub = sinon.stub();
+        it('setCanalDeConsultas responde con error si no se encuentra una palabra clave.', async () => {
+            const text = "dónde se usa la palabra clave?";
+            const respondStub = sinon.stub();
 
             await Receptores.setCanalDeConsultas({
                 app: {logger: loggerStub},
-                command: {text},
-                say: sayStub,
+                command: {text, trigger_id: 1},
+                say: sinon.stub(),
+                respond: respondStub,
                 ack: sinon.stub()
             });
 
-            sayStub.should.be.calledWithMatch('no estás usando el comando correctamente');
-        });
-
-        it('setCanalDeConsultas responde con error si se incluye un solo canal y algo más.', async () => {
-            const canal = "CMICANAL";
-            const sayStub = sinon.stub();
-
-            await Receptores.setCanalDeConsultas({
-                app: {logger: loggerStub},
-                command: {text: `<#${canal}> alguna otro cosa`},
-                say: sayStub,
-                ack: sinon.stub()
-            });
-
-            sayStub.should.be.calledWithMatch('no estás usando el comando correctamente');
-        });
-
-        it('setCanalDeConsultas responde con error si se incluyen dos canales.', async () => {
-            const sayStub = sinon.stub();
-
-            await Receptores.setCanalDeConsultas({
-                app: {logger: loggerStub},
-                command: {text: `<#CUNCANAL><#COTROCANAL>`},
-                say: sayStub,
-                ack: sinon.stub()
-            });
-
-            sayStub.should.be.calledWithMatch('no estás usando el comando correctamente');
-        });
-
-        it('setCanalDeConsultas guarda el canal de consultas si se incluye un solo canal.', async () => {
-            const canal = "CMICANAL";
-            const setCanalesDeConsultaStub = sinon.stub(CanalesDeConsulta.prototype, "setCanal");
-
-            await Receptores.setCanalDeConsultas({
-                app: {
-                    logger: loggerStub,
-                    client: {chat: {postMessage: sinon.stub().resolves(true)}}
-                },
-                command: {text: `<#${canal}>`},
-                say: sinon.stub(),
-                ack: sinon.stub(),
-                context: {}
-            });
-
-            setCanalesDeConsultaStub.should.be.called()
-        });
-
-        it('setCanalDeConsultas guarda el canal de consultas si se incluye un solo canal con el nombre.', async () => {
-            const canal = "CMICANAL|nombre-de-mi-canal";
-            const setCanalesDeConsultaStub = sinon.stub(CanalesDeConsulta.prototype, "setCanal");
-
-            await Receptores.setCanalDeConsultas({
-                app: {
-                    logger: loggerStub,
-                    client: {chat: {postMessage: sinon.stub().resolves(true)}}
-                },
-                command: {text: `<#${canal}>`},
-                say: sinon.stub(),
-                ack: sinon.stub(),
-                context: {}
-            });
-
-            setCanalesDeConsultaStub.should.be.called()
-        });
-
-        it('setCanalDeConsultas guarda el canal de consultas si el mismo es el canal desde donde se envía.', async () => {
-            const setCanalesDeConsultaStub = sinon.stub(CanalesDeConsulta.prototype, "setCanal");
-
-            await Receptores.setCanalDeConsultas({
-                app: {
-                    logger: loggerStub,
-                    client: {chat: {postMessage: sinon.stub().resolves(true)}}
-                },
-                command: {text: `aqui`},
-                say: sinon.stub(),
-                ack: sinon.stub(),
-                context: {}
-            });
-
-            setCanalesDeConsultaStub.should.be.called()
+            respondStub.should.be.calledWithMatch('no estás usando el comando correctamente');
         });
 
         it('setCanalDeConsultas responde con error si el bot no se encuentra en el canal.', async () => {
-            const sayStub = sinon.stub();
+            const respondStub = sinon.stub();
             await Receptores.setCanalDeConsultas({
-                app: {
-                    logger: loggerStub,
-                    client: {chat: {postMessage: sinon.stub().rejects()}}
-                },
-                command: {text: `<#CMICANAL>`},
-                say: sayStub,
-                ack: sinon.stub(),
-                context: {}
+                app: {logger: loggerStub},
+                command: {text: 'aquí', trigger_id: 2},
+                say: sinon.stub().rejects(),
+                respond: respondStub,
+                ack: sinon.stub()
             });
 
-            sayStub.should.be.calledWithMatch('no soy miembro del canal');
+            respondStub.should.be.calledWithMatch('no soy miembro de este canal');
+        });
+
+        it('setCanalDeConsultas guarda el canal de consultas si se utiliza una palabra clave y el bot es miembro del canal.', async () => {
+            const setCanalesDeConsultaStub = sinon.stub(CanalesDeConsulta.prototype, "setCanal");
+
+            await Receptores.setCanalDeConsultas({
+                app: {logger: loggerStub},
+                command: {text: 'aquí', trigger_id: 3},
+                say: sinon.stub().resolves(true),
+                respond: sinon.stub(),
+                ack: sinon.stub()
+            });
+
+            setCanalesDeConsultaStub.should.be.called()
         });
     });
 
