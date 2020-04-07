@@ -24,6 +24,9 @@ export default class Logger {
                  * Write errors to error.log.
                  * Write all logs to combined.log.
                  */
+                new winston.transports.Console({
+                    format: winston.format.cli()
+                }),
                 new (winston.transports.DailyRotateFile)({
                     level: 'error',
                     filename: 'error-%DATE%.log',

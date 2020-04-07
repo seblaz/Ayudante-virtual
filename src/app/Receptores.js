@@ -65,7 +65,7 @@ export default class Receptores {
         }
 
         if(!['C', 'G'].includes(command.channel_id.charAt(0))){
-            app.logger.info(`El canal donde se quiso setear las notificaciones no es un grupo: ${command.channel_id}.`);
+            app.logger.info(`El canal donde se quiso setear las notificaciones no es grupal: ${command.channel_id}.`);
             return await respond(Textos.setCanalDeConsultasEnCanalIncorrecto());
         }
 
