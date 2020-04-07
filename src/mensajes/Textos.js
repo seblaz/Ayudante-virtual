@@ -37,6 +37,13 @@ export default class Textos {
             "Ej: /set-canal-de-consultas aquí."
     }
 
+    static setCanalDeConsultasEnCanalIncorrecto() {
+        return "Lo siento, parece que estás tratando de configurar el " +
+            "Ayudante Virtual en un canal que no está permitido. Sólo " +
+            "podés hacerlo en canales grupales (tanto públicos como " +
+            "privados)."
+    }
+
     static setCanalDeConsultasCorrecto() {
         return `Gracias por configurar el ayudante virtual! Las consultas se recibirán aquí.`
     }

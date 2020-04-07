@@ -186,6 +186,10 @@ describe('App', () => {
             warn: sinon.stub(),
         };
 
+        let eventId = 0;
+
+        beforeEach(() => eventId++);
+
         it('nuevoMienbro envía un mensaje de bienvenida directo al usuario.', () => {
             const postMessage = sinon.stub();
             const idUsuario = 'id de un usuario';
@@ -207,7 +211,7 @@ describe('App', () => {
                 say: say,
                 message: {
                     text: 'hola',
-                    client_msg_id: '1'
+                    client_msg_id: eventId
                 },
                 body: {team_id: 'my team id'},
             });
@@ -223,7 +227,7 @@ describe('App', () => {
                 app: {logger: loggerStub},
                 message: {
                     text: 'hola',
-                    client_msg_id: '2'
+                    client_msg_id: eventId
                 },
                 body: {team_id: 'my team id'},
             });
@@ -236,7 +240,7 @@ describe('App', () => {
 
             await Receptores.setCanalDeConsultas({
                 app: {logger: loggerStub},
-                command: {text, trigger_id: 1},
+                command: {text, trigger_id: eventId},
                 say: sinon.stub(),
                 respond: respondStub,
                 ack: sinon.stub()
@@ -249,7 +253,7 @@ describe('App', () => {
             const respondStub = sinon.stub();
             await Receptores.setCanalDeConsultas({
                 app: {logger: loggerStub},
-                command: {text: 'aquí', trigger_id: 2},
+                command: {text: 'aquí', trigger_id: eventId, channel_id: 'CMICANAL'},
                 say: sinon.stub().rejects(),
                 respond: respondStub,
                 ack: sinon.stub()
@@ -258,12 +262,25 @@ describe('App', () => {
             respondStub.should.be.calledWithMatch('no soy miembro de este canal');
         });
 
+        it('setCanalDeConsultas responde con error si el canal no es grupal.', async () => {
+            const respondStub = sinon.stub();
+            await Receptores.setCanalDeConsultas({
+                app: {logger: loggerStub},
+                command: {text: 'aquí', trigger_id: eventId, channel_id: 'DUNUSUARIO'},
+                say: sinon.stub().rejects(),
+                respond: respondStub,
+                ack: sinon.stub()
+            });
+
+            respondStub.should.be.calledWithMatch('canal que no está permitido');
+        });
+
         it('setCanalDeConsultas guarda el canal de consultas si se utiliza una palabra clave y el bot es miembro del canal.', async () => {
             const setCanalesDeConsultaStub = sinon.stub(CanalesDeConsulta.prototype, "setCanal");
 
             await Receptores.setCanalDeConsultas({
                 app: {logger: loggerStub},
-                command: {text: 'aquí', trigger_id: 3},
+                command: {text: 'aquí', trigger_id: eventId, channel_id: 'CMICANAL'},
                 say: sinon.stub().resolves(true),
                 respond: sinon.stub(),
                 ack: sinon.stub()

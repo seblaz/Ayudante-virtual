@@ -64,6 +64,11 @@ export default class Receptores {
             return await respond(Textos.setCanalDeConsultasIncorrecto());
         }
 
+        if(!['C', 'G'].includes(command.channel_id.charAt(0))){
+            app.logger.info(`El canal donde se quiso setear las notificaciones no es un grupo: ${command.channel_id}.`);
+            return await respond(Textos.setCanalDeConsultasEnCanalIncorrecto());
+        }
+
         return say(Textos.confirmacionEnCanal(command.user_id))
             .then(async () => {
                 Servicios.get('canalesDeConsulta').setCanal(command.team_id, command.channel_id);
